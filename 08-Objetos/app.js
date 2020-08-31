@@ -1,152 +1,85 @@
-let miLibro = {
-    titulo: 'El libro de javaScript',
-    autor: 'Grover Pablo Vazquez',
-    paginas: 400,
-    publicado: false
+// Manejo de clases en JavaScript
+
+class Persona {
+    constructor(nombre,edad, trabajos = []){
+        this.nombre = nombre;
+        this.edad = edad;
+        this.trabajos = trabajos;
+    }
+    getBiografia(){
+        let biografia = `${this.nombre}, tiene ${this.edad}. Trabajo`;
+        this.trabajos.forEach((trabajo) => {
+            biografia += `${trabajo}, `
+        })
+        return biografia;
+
+    }
+
 }
 
-console.log(miLibro.publicacion);
-console.log(`${miLibro.titulo} creado por ${miLibro.autor}`);
-miLibro.paginas = 500;
-console.log(miLibro.paginas);
+const persona1 = new Persona('Pablo', 30, ['arquitecto', 'doctor']);
+const persona2 = new Persona('Pedro', 28, ['ingeniero', 'instructor']);
+const persona3 = new Persona('Ana', 25, ['secretaria']);
 
-// Ejercicio, crear un objeto persona que tenga las siguientes prop:
-//nombre, edad, ciudad
-//cambiar la edad
-//mostrar datos de la persona
 
-let persona = {
-    nombre: 'Pablo',
-    edad: 30,
-    ciudad: 'Lima'
-}
-persona.edad = 35;
-console.log(`${persona.nombre} tiene ${persona.edad} edad, y vive en la ciudad de ${persona.ciudad}`);
+console.log( typeof persona1)
+console.log(  persona1.nombre);
+console.log(persona1.getBiografia());
+console.log(persona2.getBiografia());
+console.log(persona3.getBiografia());
 
-// Usando objetos con funciones
-let miLibroA = {
-    titulo: 'El libro de javaScript',
-    autor: 'Grover Pablo Vazquez',
-    paginas: 400,
-    publicado: false
-}
 
-console.log(miLibroA.publicacion);
-console.log(`${miLibroA.titulo} creado por ${miLibroA.autor}`);
-miLibroA.paginas = 500;
-console.log(miLibroA.paginas);
+// Subclase: Herencia
 
-let miLibroB = {
-    titulo: 'Programacion en PHP',
-    autor: 'Grover Pablo Vazquez',
-    paginas: 700,
-    publicado: true
+class Persona {
+    constructor(nombre,edad, profesiones = []){
+        this.nombre = nombre;
+        this.edad = edad;
+        this.profesiones = profesiones;
+    }
+    getBiografia(){
+        let biografia = `${this.nombre}, tiene ${this.edad}. Profesiones`;
+        this.profesiones.forEach((profesion) => {
+            biografia += `${profesion}, `
+        })
+        return biografia;
+
+    }
+
 }
 
-let getResumen =  (libro) => {
-    return {
-        resumen: `${libro.titulo} creado por ${libro.autor}`,
-        resumenPaginas: `${libro.titulo} tiene ${libro.paginas} paginas`
-        }
-     }
-
-let libroAResumen = getResumen(miLibroA);
-let libroBResumen = getResumen(miLibroB);
-console.log(libroBResumen.resumen);
-console.log(libroBResumen.resumenPaginas);
-console.log(libroAResumen.resumen);
-console.log(librosAResumen.resumenPaginas);
-
-// Referencia de objetos
-let persona = {
-    nombre: 'Pablo',
-    edad: '30',
-    sueldo: 1200
+class Empleado extends Persona{
+    constructor (nombre,edad, profesiones = [], sueldo, puesto){
+        super(nombre, edad, profesiones);
+        this.sueldo = sueldo;
+        this.puesto = puesto;
+    }
+    getBiografia(){
+        return super.getBiografia() + `Salario: ${this.sueldo}, puesto: ${this.puesto}`;
+        
+    }
 }
+const persona1 = new Empleado('Pablo', 30, ['arquitecto', 'doctor'], 1500, 'gerente');
+const persona2 = new Empleado('Pedro', 28, ['ingeniero', 'instructor'], 1000 , 'rrhh');
+const persona3 = new Empleado('Ana', 25, ['secretaria'], 100 ,'administrador');
+console.log( typeof persona1)
+console.log(  persona1.nombre);
+console.log(persona1.getBiografia());
+console.log(persona2.getBiografia());
+console.log(persona3.getBiografia());
 
-let cambiarSueldo =(person, monto => {
-    person.sueldo = person.sueldo + monto;
-    console.log(person);
-})
+// getter y setter 
 
-cambiarSueldo(persona, 500);
-console.log(persona);
-
-// Métodos
-let persona = {
-    nombre: 'Pablo',
-    edad: 30,
-    sueldo: 1200,
-    metodoPrueba: function (){
-        //console.log('Escribiendo desde el método Prueba');
-        return 'Resultado desde prueba'
+const datos = {
+    //ubicacion: 'Lima'
+    get ubicacion () {
+        return this._ubicacion;
     },
-    cambiarEdad: function(e){
-        this.edad = this.edad + e;
+    set ubicacion(valor){
+        this._ubicacion = valor;
     }
 }
 
-persona.metodoPrueba();
-console.log(result);
-
-// Uso del this
-persona.cambiarEdad(3);
-
-
-// Objeto String
-
-let nombre = 'Grover Vázquez';
-let clave = '12309clave567.e'
-console.log(nombre.length);
-console.log(nombre.toLowerCase());
-console.log(nombre.toUpperCase());
-
-console.log(nombre.trim());
-console.log(clave.incluces('clave'))
-console.log(clave.incluces('clave', 5))
-
-
-// Destructuración
-const getPersonaDatos = () => {
-    const respuesta = [
-                {
-                codigo: 200,
-                data: {
-                    persona: {
-                        nombre: 'Pablo',
-                        direccion: {
-                            ciudad:'lima',
-                            pais: 'Perú'}
-                    }
-                }
-            },
-            {
-                codigo: 300,
-                data: {
-                    persona: {
-                        nombre: 'Ana',
-                        direccion: {
-                            ciudad:'lima',
-                            pais: 'Perú'}
-                    }
-                }
-            },
-
-]
-    return respuesta;
-}
-
-
-
-let {codigo: status, data: {persona: {nombre: nom}}} = getPersonaDatos()[0];
-
-for (const {codigo : status, data : {persona: {nombre : nomm}}} of getPersonaDatos()) {
-    console.log(nom);
-}
-console.log(status);
-console.log(nom);
-
-
-
-
-
+datos.ubicacion = 'Buenos aires';
+console.log(datos.ubicacion);
+console.log(datos);
