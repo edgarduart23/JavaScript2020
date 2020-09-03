@@ -1,26 +1,121 @@
-// Manejo de fecha y hora
-const ahora = new Date();
-const fecha1 = new Date("December 17, 1995");
-console.log(ahora.toString());
-console.log(fecha1.toString())
+setTimeout(function(){
+    console.log('esto aparece despues de 3 segundos')
+}, 3000);
 
-// obtener datos de una fecha
+setTimeout(() => console.log('esto aparece despues de 3 segundos'), 3000);
 
-// obtener el año
-console.log(ahora.getFullYear());
-// obtener el mes
-console.log(ahora.getMonth());
-// obtener el dia
-console.log(ahora.getDay());
-console.log(ahora.getDate());
+//JavaScript Asincronico
 
-// obtener datos de la hora
-console.log(ahora.getHours());
-console.log(ahora.getMinutes());
-console.log(ahora.getSeconds());
+const segundo = () => {
+    setTimeout(() => {
+        console.log('llamada a segundo');
+    }, 2000);
+}
 
-// timestamp o marca de tiempo
-const timestamp = ahora.getTime();
-console.log(timestamp.toString());
-const FechaActual = new Date(timestamp);
-console.log(fechaActual.getFullYear());
+const primero = () => {
+    console.log('inicio de primero');
+    segundo();
+    console.log('fin de primero');
+} 
+
+primero();
+
+//
+const getUsuarios = () => {
+    setTimeout(() => {
+        const userIDs = [101, 102, 103, 105];
+        console.log(userIDs);
+        setTimeout((id) => {
+            const usuario = {
+                email: 'grover@gmail.com',
+                nombre: 'Grover'
+            }
+            console.log(`${id} - ${usuario.email} ${usuario.nombre}`);
+            setTimeout(idPermiso => {
+                const permiso = ['admin', 'creador'];
+                console.log(permisos);
+            },1500, userIDs[2])
+        }, 1500, userIDs[1]);
+
+    },1500);
+
+}
+
+getUsuarios();
+
+
+// ejemplo del uso de promesas
+
+
+let promesa = new Promise((resolve, reject) => {
+    if(true){
+        resolve('la operacion fue exitosa')
+    } else {
+        reject('hubo un error')
+    }
+};
+
+promesa.then( response => {
+    console.log('response: ' + response)
+}).catch(error => {
+    console.log('error' + error);
+})
+
+
+var miPromesa = Promise.resolve('Comida');
+miPromesa.then(resp => console.log(resp));
+
+
+var miPromesa2 = new Promise(function(resolve, reject){
+    setTimeout(() => resolve(4), 2000)
+})
+
+miPromesa2.then(resp => {
+    resp += 5;
+    console.log(resp);
+})
+
+
+// De Callback a Promesas
+
+const getUsuariosIDs = new Promise ((response , reject) => {
+    setTimeout(() => {
+        response([101, 102, 103, 105]);
+    }, 1500)
+});
+
+const getUsuario = userID => {
+    return new Promise ((resolve, reject) => {
+        setTimeout(id => {
+            const usuario = {
+                email: 'grover@mail.com',
+                nombre: 'Grover'
+            }
+            resolve(`${id} - ${usuario.email} ${usuario.nombre}`)
+        }, 1500, userID)
+    });
+}
+getUsuariosIDs
+.then(IDs => {
+    console.log(IDs);
+    return getUsuario(IDs[3])
+})
+.then(usuario => {
+    console.log(usuario);
+})
+.catch(() =>{
+    console.log('error')
+})
+
+
+// Funcion con Async/Await
+async function getUsuarioAW(){
+    const IDs = await getUsuariosIDs;
+    console.log(IDs);
+    const usuario = await getUsuario(IDs[3]);
+    console.log(usuario);
+    return usuario;
+}
+
+getUsuarioAW().then(resultado => console.log(`${resultado} es un usuario.`));
+// llamada AJAX
